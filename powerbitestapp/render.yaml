@@ -3,7 +3,7 @@ services:
     name: powerbitestapp
     env: python
     buildCommand: "pip install -r requirements.txt"
-    startCommand: "gunicorn powerbitestapp.wsgi:application --preload --workers 3"
+    startCommand: "waitress-serve --port=8000 powerbitestapp.wsgi:application"
     plan: free  # You can upgrade to a paid plan based on your needs
     region: oregon  # Choose your preferred region
     envVars:
@@ -13,7 +13,7 @@ services:
         fromDatabase:
           name: my-django-db
           property: connectionString
-      - key: SECRET_KEY  # Change this key to SECRET_KEY
+      - key: SECRET_KEY  # Ensure this is securely managed
         value: "django-insecure-!i^mzutnz!d)61#u(@veqfetbz==9jr*cvkg+yd&)u@7bo0p="
         sync: false  # Manually set this in the Render dashboard or via Render CLI
     autoDeploy: true  # Automatically deploy on every push to the main branch
